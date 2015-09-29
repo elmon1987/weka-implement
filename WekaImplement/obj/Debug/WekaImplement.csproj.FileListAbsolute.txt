@@ -1,0 +1,12 @@
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\bin\Debug\WekaImplement.exe.config
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\bin\Debug\WekaImplement.exe
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\bin\Debug\WekaImplement.pdb
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.csprojResolveAssemblyReference.cache
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.Form1.resources
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.Properties.Resources.resources
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.csproj.GenerateResource.Cache
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.exe
+c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.pdb
+F:\Projects\WekaImplement\WekaImplement\bin\Debug\WekaImplement.exe.config
+F:\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.exe
+F:\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.pdb
