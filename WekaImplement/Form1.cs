@@ -68,12 +68,12 @@ namespace WekaImplement
                 MessageBox.Show(_res, "Data Debug");
             }
 
-            for (int i = 0; i < predata.GetLength(0); i++) //i=2 j=12
+            for (int i = 0; i < predata.GetLength(1); i++) //0=j=2 1=i=12
             {
-                object[] o_data = new object[predata.GetLength(1)];
-                for (int j = 0; j < predata.GetLength(1); j++)
+                object[] o_data = new object[predata.GetLength(0)];
+                for (int j = 0; j < predata.GetLength(0); j++)
                 {
-                    o_data[j] = predata[i, j];
+                    o_data[j] = predata[j, i];
                 }
                 dataset.Data.Add(o_data);
             }

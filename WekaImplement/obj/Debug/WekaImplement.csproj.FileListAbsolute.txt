@@ -8,5 +8,11 @@ c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement
 c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.exe
 c:\users\admin\documents\visual studio 2013\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.pdb
 F:\Projects\WekaImplement\WekaImplement\bin\Debug\WekaImplement.exe.config
+F:\Projects\WekaImplement\WekaImplement\bin\Debug\WekaImplement.exe
+F:\Projects\WekaImplement\WekaImplement\bin\Debug\WekaImplement.pdb
+F:\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.csprojResolveAssemblyReference.cache
+F:\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.Form1.resources
+F:\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.Properties.Resources.resources
+F:\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.csproj.GenerateResource.Cache
 F:\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.exe
 F:\Projects\WekaImplement\WekaImplement\obj\Debug\WekaImplement.pdb
