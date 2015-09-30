@@ -34,6 +34,7 @@
             this.F_Data = new System.Windows.Forms.TextBox();
             this.Debug_Chk = new System.Windows.Forms.CheckBox();
             this.I_Info = new System.Windows.Forms.Button();
+            this.Debug_Quit = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // F_Path
@@ -94,11 +95,22 @@
             this.I_Info.UseVisualStyleBackColor = true;
             this.I_Info.Click += new System.EventHandler(this.I_Info_Click);
             // 
+            // Debug_Quit
+            // 
+            this.Debug_Quit.AutoSize = true;
+            this.Debug_Quit.Location = new System.Drawing.Point(703, 39);
+            this.Debug_Quit.Name = "Debug_Quit";
+            this.Debug_Quit.Size = new System.Drawing.Size(73, 17);
+            this.Debug_Quit.TabIndex = 6;
+            this.Debug_Quit.Text = "Terminate";
+            this.Debug_Quit.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.Debug_Quit);
             this.Controls.Add(this.I_Info);
             this.Controls.Add(this.Debug_Chk);
             this.Controls.Add(this.F_Data);
@@ -122,6 +134,7 @@
         private System.Windows.Forms.TextBox F_Data;
         private System.Windows.Forms.CheckBox Debug_Chk;
         private System.Windows.Forms.Button I_Info;
+        private System.Windows.Forms.CheckBox Debug_Quit;
     }
     public class Instances
     {
