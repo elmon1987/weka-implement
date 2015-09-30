@@ -11,18 +11,31 @@ using System.IO;
 
 namespace WekaImplement
 {
+    /*
+     * WEKA IMPLEMENT
+     * TODO LIST
+     * 
+     * Fill missing value of dataset
+     * Implement discretize algorithm (equal-width/equal-freq)
+     * Implement normalize (min-max/z-score)
+     * 
+     * Design save and display output
+     */
     public partial class Form1 : Form
     {
         private string instances;
         private DataSet dataset = new DataSet();
+        private List<int> attIndex = new List<int>();
 
         public Form1()
         {
             InitializeComponent();
             dataset.Info = new List<Instances>();
             dataset.Data = new List<object[]>();
+            I_Table.Columns[0].ValueType = typeof(int);
         }
 
+        #region Tooltips
         private string Parser(object[] data) //Get type of attribute
         {
             double dummy;
@@ -131,6 +144,14 @@ namespace WekaImplement
             if (Debug_Quit.Checked) Application.Exit();
         }
 
+        private void getTable(DataSet dset)
+        {
+            for (int i = 1; i <= dset.Info.Count; i++)
+            {
+                I_Table.Rows.Add(i, false, dset.Info[i - 1].Attribute);
+            }
+        }
+        
         private void Reset()
         {
             F_Data.Clear();
@@ -138,8 +159,25 @@ namespace WekaImplement
             instances = "";
             dataset.Info.Clear();
             dataset.Data.Clear();
+            I_Table.Rows.Clear();
         }
 
+        private void debugTable()
+        {
+            string _res = "";
+            foreach (DataGridViewRow chk in I_Table.Rows)
+            {
+                if ((bool)chk.Cells["Chk"].Value == true)
+                {
+                    attIndex.Add((int)chk.Cells["No"].Value-1);
+                    _res += ((int)chk.Cells["No"].Value - 1).ToString() + " ";
+                }
+            }
+            MessageBox.Show(_res, "Table Debug");
+        }
+        #endregion
+
+        #region Event
         private void F_Load_Click(object sender, EventArgs e)
         {
             Reset();
@@ -169,6 +207,7 @@ namespace WekaImplement
 
                 I_Info.PerformClick();
                 //DataProcess(lines);
+                getTable(dataset);
 
                 MessageBox.Show("Load success!", "Notification"); 
             }          
@@ -212,7 +251,95 @@ namespace WekaImplement
             foreach (Instances ins in dataset.Info)
                 _res += "\nAttrib: " + ins.Attribute
                      + "\tType: " + ins.Type;
+            _res += "\n\nNumber of attributes: " + dataset.Info.Count
+                 + "\n\nNumber of instances: " + dataset.Data[0].Length;
             MessageBox.Show(_res, "Data Info");
         }
+
+        private void Chk_Click(object sender, DataGridViewCellEventArgs e)
+        {
+            if (I_Table.Columns[e.ColumnIndex].Name == "Chk")
+            {
+                DataGridViewCheckBoxCell chk = new DataGridViewCheckBoxCell();
+
+                chk = (DataGridViewCheckBoxCell)I_Table.Rows[I_Table.CurrentRow.Index].Cells["Chk"];
+                if (chk.Value == null || (bool)chk.Value == true)
+                    chk.Value = false;
+                else chk.Value = true;
+            }
+        }
+
+        private void Slt_All_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow chk in I_Table.Rows)
+                chk.Cells["Chk"].Value = true;
+            if (Debug_Chk.Checked)
+            {
+                this.Text = "Debug Mode";
+                debugTable();
+            }
+            this.Text = "Weka Implement";
+        }
+
+        private void Slt_None_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow chk in I_Table.Rows)
+                chk.Cells["Chk"].Value = false;
+            if (Debug_Chk.Checked)
+            {
+                this.Text = "Debug Mode";
+                debugTable();
+            }
+            this.Text = "Weka Implement";
+        }
+
+        private void Slt_Invert_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow chk in I_Table.Rows)
+                chk.Cells["Chk"].Value = !(bool)chk.Cells["Chk"].Value;
+            if (Debug_Chk.Checked)
+            {
+                this.Text = "Debug Mode";
+                debugTable();
+            }
+            this.Text = "Weka Implement";
+        }
+        #endregion
+        private void D_Width_Click(object sender, EventArgs e)
+        {
+            if (numBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");
+            else
+            {
+                //TODO
+            }
+        }
+
+        private void D_Freq_Click(object sender, EventArgs e)
+        {
+            if (weightBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");
+            else
+            {
+                //TODO
+            }
+        }
+
+        private void I_Fill_Click(object sender, EventArgs e)
+        {
+            //TODO
+        }
+
+        private void N_MinMax_Click(object sender, EventArgs e)
+        {
+            //TODO
+        }
+
+        private void N_Zscore_Click(object sender, EventArgs e)
+        {
+            //TODO
+        }
+
+        
+
+
     }
 }
