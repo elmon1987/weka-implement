@@ -152,6 +152,57 @@ namespace WekaImplement
             }
         }
         
+        private double getMedian(int index)
+        {
+            List<double> value = new List<double>();
+
+            foreach (object o in dataset.Data[index])
+                //if ((string)o != "?") 
+                    value.Add((double)o);
+
+            value = value.OrderBy(numbers => numbers)
+                         .ToList();
+
+            int cnt = value.Count;
+            double res;
+
+            if (cnt % 2 == 0)
+            {
+                int mid = cnt / 2;
+                res = ((value.ElementAt(mid-1)+value.ElementAt(mid))/2);
+            }
+            else
+            {
+                double ele = (double)cnt / 2;
+                ele = Math.Round(ele, MidpointRounding.AwayFromZero);
+                res = value.ElementAt((int)(ele - 1));
+            }
+            return res;
+        }
+
+        private double getMean(int index)
+        {
+            List<double> value = new List<double>();
+
+            foreach (object o in dataset.Data[index])
+                //if ((string)o != "?") 
+                    value.Add((double)o);
+
+            return value.Average();
+        }
+
+        private string getMode(int index)
+        {
+            List<string> value = new List<string>();
+
+            foreach (object o in dataset.Data[index])
+                if ((string)o != "?") value.Add((string)o);
+
+            return value.GroupBy(v => v)
+                        .OrderByDescending(g => g.Count())
+                        .First()
+                        .Key;
+        }
         private void Reset()
         {
             F_Data.Clear();
@@ -201,7 +252,6 @@ namespace WekaImplement
                     F_Data.Text = instances; //test load
                     this.Text = "Debug Mode";
                 }
-                else this.Text = "Weka Implement";
 
                 DataProcessor(lines);
 
@@ -209,6 +259,14 @@ namespace WekaImplement
                 //DataProcess(lines);
                 getTable(dataset);
 
+                if (Debug_Chk.Checked)
+                {
+                    MessageBox.Show(getMean(0).ToString(), "Mean");
+                    MessageBox.Show(getMedian(0).ToString(), "Median");
+                    MessageBox.Show(getMode(2).ToString(), "Mode");
+                }
+
+                this.Text = "Weka Implement";
                 MessageBox.Show("Load success!", "Notification"); 
             }          
         }
