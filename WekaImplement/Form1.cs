@@ -378,7 +378,7 @@ namespace WekaImplement
             if (numBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");
             else
             {
-                //TODO
+                
             }
         }
 
@@ -431,7 +431,6 @@ namespace WekaImplement
 
         private void N_MinMax_Click(object sender, EventArgs e)
         {
-            //TODO
             debugTable();
             if(attIndex.Count == 0)
                 MessageBox.Show("Not choose attribute yet!", "Notification");
@@ -440,32 +439,77 @@ namespace WekaImplement
                 List<List<double>> res = new List<List<double>>();
                 for (int i = 0; i < attIndex.Count; ++i)
                 {
-                    List<double> temp = new List<double>();
-                    foreach (object o in dataset.Data[attIndex[i]])
-                        temp.Add((double)o);
-
-                    double min = temp.Min(), max = temp.Max();
-
-                    for (int j = 0; j < temp.Count; ++j)
-                        temp[j] = (temp[j] - min) / (max - min);
-
-                    if(Debug_Chk.Checked)
+                    if (dataset.Info[attIndex[i]].Type == "Nominal")
+                        MessageBox.Show("This attribute can't normalize!", "Notification");
+                    else
                     {
-                        string _res = "";
-                        foreach (double d in temp)
-                            _res += d.ToString() + " ";
-                        MessageBox.Show(_res, "temp Debug");
-                    }
+                        List<double> temp = new List<double>();
+                        foreach (object o in dataset.Data[attIndex[i]])
+                            temp.Add((double)o);
 
-                    res.Add(temp);
-                    MessageBox.Show(res.Count.ToString(), "Count res Debug");
+                        double min = temp.Min(), max = temp.Max();
+
+                        for (int j = 0; j < temp.Count; ++j)
+                            temp[j] = (temp[j] - min) / (max - min);
+
+                        if (Debug_Chk.Checked)
+                        {
+                            string _res = "";
+                            foreach (double d in temp)
+                                _res += d.ToString() + " ";
+                            MessageBox.Show(_res, "temp Debug");
+                        }
+
+                        res.Add(temp);                       //output data
+                        MessageBox.Show(res.Count.ToString(), "Count res Debug");
+                    }
+                    
                 }
             }
         }
 
         private void N_Zscore_Click(object sender, EventArgs e)
         {
-            //TODO
+            debugTable();
+            if (attIndex.Count == 0)
+                MessageBox.Show("Not choose attribute yet!", "Notification");
+            else
+            {
+                List<List<double>> res = new List<List<double>>();
+                for (int i = 0; i < attIndex.Count; ++i)
+                {
+                    if (dataset.Info[attIndex[i]].Type == "Nominal")
+                        MessageBox.Show("This attribute can't normalize!", "Notification");
+                    else
+                    {
+                        List<double> temp = new List<double>();
+                        foreach (object o in dataset.Data[attIndex[i]])
+                            temp.Add((double)o);
+
+                        double mean = temp.Average(), sumofSqr = 0;
+                        for (int j = 0; j < temp.Count; ++j)      //calculate v' = v - u
+                            temp[j] = temp[j] - mean;
+
+                        for (int j = 0; j < temp.Count; ++j)
+                            sumofSqr += Math.Pow(temp[j], 2);
+
+                        for (int j = 0; j < temp.Count; ++j)
+                            temp[j] = Math.Round(temp[j]/Math.Sqrt(sumofSqr/temp.Count),4);
+
+                            if (Debug_Chk.Checked)
+                            {
+                                string _res = "";
+                                foreach (double d in temp)
+                                    _res += d.ToString() + " ";
+                                MessageBox.Show(_res, "temp Debug");
+                            }
+
+                            res.Add(temp);               //output data
+                        MessageBox.Show(res.Count.ToString(), "Count res Debug");
+                    }
+
+                }
+            }
         }
 
         
