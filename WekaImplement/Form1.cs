@@ -200,6 +200,7 @@ namespace WekaImplement
                 if ((string)o != "?") value.Add((string)o);
             }
 
+
             return value.GroupBy(v => v)
                         .OrderByDescending(g => g.Count())
                         .First()
@@ -213,10 +214,12 @@ namespace WekaImplement
             dataset.Info.Clear();
             dataset.Data.Clear();
             I_Table.Rows.Clear();
+            attIndex.Clear();
         }
 
         private void debugTable()
         {
+            attIndex.Clear();
             string _res = "";
             foreach (DataGridViewRow chk in I_Table.Rows)
             {
@@ -391,6 +394,35 @@ namespace WekaImplement
         private void N_MinMax_Click(object sender, EventArgs e)
         {
             //TODO
+            debugTable();
+            if(attIndex.Count == 0)
+                MessageBox.Show("Not choose attribute yet!", "Notification");
+            else
+            {
+                List<List<double>> res = new List<List<double>>();
+                for (int i = 0; i < attIndex.Count; ++i)
+                {
+                    List<double> temp = new List<double>();
+                    foreach (object o in dataset.Data[attIndex[i]])
+                        temp.Add((double)o);
+
+                    double min = temp.Min(), max = temp.Max();
+
+                    for (int j = 0; j < temp.Count; ++j)
+                        temp[j] = (temp[j] - min) / (max - min);
+
+                    if(Debug_Chk.Checked)
+                    {
+                        string _res = "";
+                        foreach (double d in temp)
+                            _res += d.ToString() + " ";
+                        MessageBox.Show(_res, "temp Debug");
+                    }
+
+                    res.Add(temp);
+                    MessageBox.Show(res.Count.ToString(), "Count res Debug");
+                }
+            }
         }
 
         private void N_Zscore_Click(object sender, EventArgs e)
