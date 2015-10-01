@@ -266,16 +266,9 @@ namespace WekaImplement
                 DataProcessor(lines);
 
                 I_Info.PerformClick();
-                //DataProcess(lines);
+
                 getTable(dataset);
-
-                /*if (Debug_Chk.Checked)
-                {
-                    MessageBox.Show(getMean(0).ToString(), "Mean");
-                    MessageBox.Show(getMedian(0).ToString(), "Median");
-                    MessageBox.Show(getMode(2).ToString(), "Mode");
-                }*/
-
+                
                 this.Text = "Weka Implement";
                 MessageBox.Show("Load success!", "Notification");
             }          
@@ -393,40 +386,57 @@ namespace WekaImplement
 
         private void I_Fill_Click(object sender, EventArgs e)
         {
+            DataSet temp_data = dataset;
             if (Debug_Chk.Checked)
             {
                 this.Text = "Debug Mode";
                 string _res = "";
-                foreach (object o in dataset.Data[3])
+                foreach (object o in temp_data.Data[3])
                 {
                     _res += o.ToString() + " " + o.GetType().ToString() + "\n";
                 }
                 MessageBox.Show(_res);
             }
             
-            for (int i = 0; i < dataset.Info.Count; i++)
+            for (int i = 0; i < temp_data.Info.Count; i++)
             {
-                if (dataset.Info[i].Type == "Numerical")
+                if (temp_data.Info[i].Type == "Numerical")
                 {
                     double _tmp = getMean(i);
-                    for (int j = 0; j < dataset.Data[i].Length; j++)
+                    for (int j = 0; j < temp_data.Data[i].Length; j++)
                     {
-                        if (dataset.Data[i][j].GetType() == typeof(string))
-                            dataset.Data[i][j] = _tmp;
+                        if (temp_data.Data[i][j].GetType() == typeof(string))
+                            temp_data.Data[i][j] = _tmp;
                     }
                 }
                 else
                 {
                     string _tmp = getMode(i);
-                    for (int j = 0; j < dataset.Data[i].Length; j++)
+                    for (int j = 0; j < temp_data.Data[i].Length; j++)
                     {
-                        if ((string)dataset.Data[i][j] == "?")
-                            dataset.Data[i][j] = _tmp;
+                        if ((string)temp_data.Data[i][j] == "?")
+                            temp_data.Data[i][j] = _tmp;
                     }
                 }
             }
 
-            
+            //Print out and save
+            string header = "";
+            foreach (Instances ins in temp_data.Info)
+                header += "\"" + ins.Attribute + "\",";
+            header = header.Substring(0, header.Length - 1) + "\r\n";
+            if (Debug_Chk.Checked) F_Data.Text = header;
+
+            string data = "";
+            for (int i = 0; i < temp_data.Data[0].Length; i++)
+            {
+                for (int j = 0; j < temp_data.Info.Count; j++)
+                {
+                    data += temp_data.Data[j][i] + ",";
+                }
+                data = data.Substring(0,data.Length-1) + "\r\n";
+            }
+            F_Data.Text = header + data;
         }
 
         private void N_MinMax_Click(object sender, EventArgs e)
