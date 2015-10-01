@@ -196,7 +196,9 @@ namespace WekaImplement
             List<string> value = new List<string>();
 
             foreach (object o in dataset.Data[index])
+            {
                 if ((string)o != "?") value.Add((string)o);
+            }
 
             return value.GroupBy(v => v)
                         .OrderByDescending(g => g.Count())
@@ -259,15 +261,15 @@ namespace WekaImplement
                 //DataProcess(lines);
                 getTable(dataset);
 
-                if (Debug_Chk.Checked)
+                /*if (Debug_Chk.Checked)
                 {
                     MessageBox.Show(getMean(0).ToString(), "Mean");
                     MessageBox.Show(getMedian(0).ToString(), "Median");
                     MessageBox.Show(getMode(2).ToString(), "Mode");
-                }
+                }*/
 
                 this.Text = "Weka Implement";
-                MessageBox.Show("Load success!", "Notification"); 
+                MessageBox.Show("Load success!", "Notification");
             }          
         }
 
