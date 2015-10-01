@@ -17,7 +17,7 @@ namespace WekaImplement
      * 
      * Fill missing value of dataset
      * Implement discretize algorithm (equal-width/equal-freq)
-     * Implement normalize (min-max/z-score)
+     * Implement normalize (z-score)
      * 
      * Design save and display output
      */
@@ -53,8 +53,9 @@ namespace WekaImplement
                 {
                     for (int j = 0; j < data[i].Length; j++)
                     {
-                        double.TryParse((string)data[i][j], out dummy);
-                        data[i][j] = dummy;
+                        if (double.TryParse((string)data[i][j], out dummy))
+                            data[i][j] = dummy;
+                        else data[i][j] = "?";
                     }
                 }
             }
@@ -157,13 +158,16 @@ namespace WekaImplement
             List<double> value = new List<double>();
 
             foreach (object o in dataset.Data[index])
-                //if ((string)o != "?") 
+                if (o.GetType() == typeof(double)) 
                     value.Add((double)o);
 
             value = value.OrderBy(numbers => numbers)
                          .ToList();
 
             int cnt = value.Count;
+
+            if (cnt == 0) return 0;
+
             double res;
 
             if (cnt % 2 == 0)
@@ -185,9 +189,10 @@ namespace WekaImplement
             List<double> value = new List<double>();
 
             foreach (object o in dataset.Data[index])
-                //if ((string)o != "?") 
+                if (o.GetType() == typeof(double)) 
                     value.Add((double)o);
 
+            if (value.Count == 0) return 0;
             return value.Average();
         }
 
@@ -388,7 +393,40 @@ namespace WekaImplement
 
         private void I_Fill_Click(object sender, EventArgs e)
         {
-            //TODO
+            if (Debug_Chk.Checked)
+            {
+                this.Text = "Debug Mode";
+                string _res = "";
+                foreach (object o in dataset.Data[3])
+                {
+                    _res += o.ToString() + " " + o.GetType().ToString() + "\n";
+                }
+                MessageBox.Show(_res);
+            }
+            
+            for (int i = 0; i < dataset.Info.Count; i++)
+            {
+                if (dataset.Info[i].Type == "Numerical")
+                {
+                    double _tmp = getMean(i);
+                    for (int j = 0; j < dataset.Data[i].Length; j++)
+                    {
+                        if (dataset.Data[i][j].GetType() == typeof(string))
+                            dataset.Data[i][j] = _tmp;
+                    }
+                }
+                else
+                {
+                    string _tmp = getMode(i);
+                    for (int j = 0; j < dataset.Data[i].Length; j++)
+                    {
+                        if ((string)dataset.Data[i][j] == "?")
+                            dataset.Data[i][j] = _tmp;
+                    }
+                }
+            }
+
+            
         }
 
         private void N_MinMax_Click(object sender, EventArgs e)
