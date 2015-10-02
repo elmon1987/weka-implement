@@ -52,13 +52,19 @@
             this.D_Width = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.N_Zscore = new System.Windows.Forms.Button();
             this.N_MinMax = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.N_Zscore = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.D_Table = new System.Windows.Forms.DataGridView();
+            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.I_Table)).BeginInit();
             this.Attrib_Panel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.D_Table)).BeginInit();
             this.SuspendLayout();
             // 
             // F_Path
@@ -95,7 +101,7 @@
             this.F_Data.Multiline = true;
             this.F_Data.Name = "F_Data";
             this.F_Data.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.F_Data.Size = new System.Drawing.Size(473, 278);
+            this.F_Data.Size = new System.Drawing.Size(255, 278);
             this.F_Data.TabIndex = 3;
             this.F_Data.WordWrap = false;
             // 
@@ -296,6 +302,16 @@
             this.panel2.Size = new System.Drawing.Size(211, 97);
             this.panel2.TabIndex = 11;
             // 
+            // N_Zscore
+            // 
+            this.N_Zscore.Location = new System.Drawing.Point(109, 29);
+            this.N_Zscore.Name = "N_Zscore";
+            this.N_Zscore.Size = new System.Drawing.Size(97, 47);
+            this.N_Zscore.TabIndex = 2;
+            this.N_Zscore.Text = "Z-score";
+            this.N_Zscore.UseVisualStyleBackColor = true;
+            this.N_Zscore.Click += new System.EventHandler(this.N_Zscore_Click);
+            // 
             // N_MinMax
             // 
             this.N_MinMax.Location = new System.Drawing.Point(6, 29);
@@ -315,21 +331,51 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Normalize";
             // 
-            // N_Zscore
+            // panel3
             // 
-            this.N_Zscore.Location = new System.Drawing.Point(109, 29);
-            this.N_Zscore.Name = "N_Zscore";
-            this.N_Zscore.Size = new System.Drawing.Size(97, 47);
-            this.N_Zscore.TabIndex = 2;
-            this.N_Zscore.Text = "Z-score";
-            this.N_Zscore.UseVisualStyleBackColor = true;
-            this.N_Zscore.Click += new System.EventHandler(this.N_Zscore_Click);
+            this.panel3.Controls.Add(this.D_Table);
+            this.panel3.Location = new System.Drawing.Point(275, 271);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(211, 278);
+            this.panel3.TabIndex = 12;
+            // 
+            // D_Table
+            // 
+            this.D_Table.AllowUserToAddRows = false;
+            this.D_Table.AllowUserToDeleteRows = false;
+            this.D_Table.AllowUserToResizeRows = false;
+            this.D_Table.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.D_Table.ColumnHeadersHeight = 20;
+            this.D_Table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.D_Table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Data,
+            this.Value});
+            this.D_Table.Location = new System.Drawing.Point(4, 4);
+            this.D_Table.Name = "D_Table";
+            this.D_Table.RowHeadersVisible = false;
+            this.D_Table.Size = new System.Drawing.Size(204, 271);
+            this.D_Table.TabIndex = 0;
+            // 
+            // Data
+            // 
+            this.Data.FillWeight = 142.132F;
+            this.Data.HeaderText = "";
+            this.Data.Name = "Data";
+            this.Data.ReadOnly = true;
+            // 
+            // Value
+            // 
+            this.Value.FillWeight = 57.86803F;
+            this.Value.HeaderText = "";
+            this.Value.Name = "Value";
+            this.Value.ReadOnly = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 561);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.I_Fill);
@@ -352,6 +398,8 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.D_Table)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -386,6 +434,10 @@
         private System.Windows.Forms.Button N_MinMax;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button N_Zscore;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.DataGridView D_Table;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Data;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
     }
     public class Instances
     {

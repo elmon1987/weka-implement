@@ -13,13 +13,17 @@ namespace WekaImplement
 {
     /*
      * WEKA IMPLEMENT
-     * TODO LIST
      * 
-     * Fill missing value of dataset
-     * Implement discretize algorithm (equal-width/equal-freq)
-     * Implement normalize (z-score)
+     * This is copyrighted to University of Technology in Viet Nam
      * 
-     * Design save and display output
+     * Student ID: 12520638 - 12520971
+     * 
+     * Features:
+     *  -   Can read .csv file
+     *  -   Show info of data file
+     *  -   Discretize filters with binning
+     *  -   Normalize filters with min-max and z-score type
+     *  -   Debug + Terminate mode for developers
      */
     public partial class Form1 : Form
     {
@@ -44,7 +48,7 @@ namespace WekaImplement
                 return "Numerical";
         }
 
-        private void reParse(List<object[]> data)
+        private void reParse(List<object[]> data) //Parse data into database
         {
             for (int i = 0; i < data.Count; i++)
             {
@@ -61,7 +65,7 @@ namespace WekaImplement
             }
         }
 
-        private void DataProcessor(string[] lines)
+        private void DataProcessor(string[] lines) //Pre-process raw data
         {
             string attrib = lines[0];
             
@@ -71,7 +75,7 @@ namespace WekaImplement
             foreach (string tmp in s_attrib)
                 dataset.Info.Add(new Instances { Attribute = tmp });
 
-            //Debug
+            //Debug attribute
             if (Debug_Chk.Checked)
             {
                 this.Text = "Debug Mode";
@@ -81,13 +85,15 @@ namespace WekaImplement
                 MessageBox.Show(_res, "Attribute Debug");
             }
 
-            object[,] predata = new object[lines.Length - 1, dataset.Info.Count]; //row = lines - attrib line //col = numAttrib
+            object[,] predata = new object[lines.Length - 1, dataset.Info.Count];
             
+            //Debug array dimension
             if (Debug_Chk.Checked)
                 MessageBox.Show("Row = " + predata.GetLength(0).ToString()
                                 + "\n Col = " + predata.GetLength(1).ToString()
                                 , "Dimension Debug");
 
+            //Process lines of data into data array
             for (int i = 0; i < predata.GetLength(0); i++)
             {
                 string[] line = lines[i+1].Split(','); //split value
@@ -96,7 +102,7 @@ namespace WekaImplement
                     predata[i, j] = line[j];
             }
 
-            //Debug
+            //Debug get first line of data array
             if (Debug_Chk.Checked)
             {
                 string _res = "";
@@ -145,7 +151,7 @@ namespace WekaImplement
             if (Debug_Quit.Checked) Application.Exit();
         }
 
-        private void getTable(DataSet dset)
+        private void setTable(DataSet dset) //Set attribute in table
         {
             for (int i = 1; i <= dset.Info.Count; i++)
             {
@@ -153,7 +159,7 @@ namespace WekaImplement
             }
         }
         
-        private double getMedian(int index)
+        /*private double getMedian(int index)
         {
             List<double> value = new List<double>();
 
@@ -182,9 +188,9 @@ namespace WekaImplement
                 res = value.ElementAt((int)(ele - 1));
             }
             return res;
-        }
+        }*/
 
-        private double getMean(int index)
+        private double getMean(int index) //Get mean of numerical dataset
         {
             List<double> value = new List<double>();
 
@@ -196,7 +202,7 @@ namespace WekaImplement
             return value.Average();
         }
 
-        private string getMode(int index)
+        private string getMode(int index) //Get mode of nominal dataset
         {
             List<string> value = new List<string>();
 
@@ -211,7 +217,7 @@ namespace WekaImplement
                         .First()
                         .Key;
         }
-        private void Reset()
+        private void Reset() //Re-init state
         {
             F_Data.Clear();
             F_Path.Clear();
@@ -222,7 +228,7 @@ namespace WekaImplement
             attIndex.Clear();
         }
 
-        private void debugTable()
+        private void debugTable() //Get list of checked attribute
         {
             attIndex.Clear();
             string _res = "";
@@ -234,7 +240,7 @@ namespace WekaImplement
                     _res += ((int)chk.Cells["No"].Value - 1).ToString() + " ";
                 }
             }
-            MessageBox.Show(_res, "Table Debug");
+            if (Debug_Chk.Checked)   MessageBox.Show(_res, "Table Debug");
         }
         #endregion
 
@@ -267,14 +273,14 @@ namespace WekaImplement
 
                 I_Info.PerformClick();
 
-                getTable(dataset);
+                setTable(dataset);
                 
                 this.Text = "Weka Implement";
                 MessageBox.Show("Load success!", "Notification");
             }          
         }
 
-        private void F_Save_Click(object sender, EventArgs e)
+        private void F_Save_Click(object sender, EventArgs e) //Save data in debug screen to file
         {
             if (F_Data.Text == "")  MessageBox.Show("Nothing to save!", "Notification");
             else
@@ -306,7 +312,7 @@ namespace WekaImplement
             }
         }
 
-        private void I_Info_Click(object sender, EventArgs e)
+        private void I_Info_Click(object sender, EventArgs e) //Show info
         {
             string _res = "";
             foreach (Instances ins in dataset.Info)
@@ -317,20 +323,19 @@ namespace WekaImplement
             MessageBox.Show(_res, "Data Info");
         }
 
-        private void Chk_Click(object sender, DataGridViewCellEventArgs e)
+        private void Chk_Click(object sender, DataGridViewCellEventArgs e) //Fire check checkbox event
         {
             if (I_Table.Columns[e.ColumnIndex].Name == "Chk")
             {
                 DataGridViewCheckBoxCell chk = new DataGridViewCheckBoxCell();
 
                 chk = (DataGridViewCheckBoxCell)I_Table.Rows[I_Table.CurrentRow.Index].Cells["Chk"];
-                if (chk.Value == null || (bool)chk.Value == true)
-                    chk.Value = false;
-                else chk.Value = true;
+
+                chk.Value = !(bool)chk.Value;
             }
         }
 
-        private void Slt_All_Click(object sender, EventArgs e)
+        private void Slt_All_Click(object sender, EventArgs e) //Fire check all checkbox event
         {
             foreach (DataGridViewRow chk in I_Table.Rows)
                 chk.Cells["Chk"].Value = true;
@@ -342,7 +347,7 @@ namespace WekaImplement
             this.Text = "Weka Implement";
         }
 
-        private void Slt_None_Click(object sender, EventArgs e)
+        private void Slt_None_Click(object sender, EventArgs e) //Fire uncheck all checkbox event
         {
             foreach (DataGridViewRow chk in I_Table.Rows)
                 chk.Cells["Chk"].Value = false;
@@ -354,7 +359,7 @@ namespace WekaImplement
             this.Text = "Weka Implement";
         }
 
-        private void Slt_Invert_Click(object sender, EventArgs e)
+        private void Slt_Invert_Click(object sender, EventArgs e) //Fire reverse check all checkbox event
         {
             foreach (DataGridViewRow chk in I_Table.Rows)
                 chk.Cells["Chk"].Value = !(bool)chk.Cells["Chk"].Value;
@@ -384,7 +389,7 @@ namespace WekaImplement
             }
         }
 
-        private void I_Fill_Click(object sender, EventArgs e)
+        private void I_Fill_Click(object sender, EventArgs e) //Fill missing value of dataset
         {
             DataSet temp_data = dataset;
             if (Debug_Chk.Checked)
@@ -439,7 +444,7 @@ namespace WekaImplement
             F_Data.Text = header + data;
         }
 
-        private void N_MinMax_Click(object sender, EventArgs e)
+        private void N_MinMax_Click(object sender, EventArgs e) //Normalize using min-max
         {
             //TODO
             debugTable();
