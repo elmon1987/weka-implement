@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.F_Path = new System.Windows.Forms.TextBox();
             this.F_Load = new System.Windows.Forms.Button();
             this.F_Save = new System.Windows.Forms.Button();
@@ -36,9 +37,6 @@
             this.I_Info = new System.Windows.Forms.Button();
             this.Debug_Quit = new System.Windows.Forms.CheckBox();
             this.I_Table = new System.Windows.Forms.DataGridView();
-            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Chk = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Attribute = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Attrib_Panel = new System.Windows.Forms.Panel();
             this.Slt_Invert = new System.Windows.Forms.Button();
             this.Slt_None = new System.Windows.Forms.Button();
@@ -59,12 +57,24 @@
             this.D_Table = new System.Windows.Forms.DataGridView();
             this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numAttrib = new System.Windows.Forms.TextBox();
+            this.numSample = new System.Windows.Forms.TextBox();
+            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Chk = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Attribute = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.I_Table)).BeginInit();
             this.Attrib_Panel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.D_Table)).BeginInit();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // F_Path
@@ -72,12 +82,12 @@
             this.F_Path.Location = new System.Drawing.Point(13, 13);
             this.F_Path.Name = "F_Path";
             this.F_Path.ReadOnly = true;
-            this.F_Path.Size = new System.Drawing.Size(343, 20);
+            this.F_Path.Size = new System.Drawing.Size(568, 20);
             this.F_Path.TabIndex = 0;
             // 
             // F_Load
             // 
-            this.F_Load.Location = new System.Drawing.Point(362, 12);
+            this.F_Load.Location = new System.Drawing.Point(587, 12);
             this.F_Load.Name = "F_Load";
             this.F_Load.Size = new System.Drawing.Size(59, 21);
             this.F_Load.TabIndex = 1;
@@ -87,7 +97,7 @@
             // 
             // F_Save
             // 
-            this.F_Save.Location = new System.Drawing.Point(427, 11);
+            this.F_Save.Location = new System.Drawing.Point(652, 12);
             this.F_Save.Name = "F_Save";
             this.F_Save.Size = new System.Drawing.Size(59, 21);
             this.F_Save.TabIndex = 2;
@@ -101,14 +111,14 @@
             this.F_Data.Multiline = true;
             this.F_Data.Name = "F_Data";
             this.F_Data.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.F_Data.Size = new System.Drawing.Size(255, 278);
+            this.F_Data.Size = new System.Drawing.Size(481, 278);
             this.F_Data.TabIndex = 3;
             this.F_Data.WordWrap = false;
             // 
             // Debug_Chk
             // 
             this.Debug_Chk.AutoSize = true;
-            this.Debug_Chk.Location = new System.Drawing.Point(349, 44);
+            this.Debug_Chk.Location = new System.Drawing.Point(573, 44);
             this.Debug_Chk.Name = "Debug_Chk";
             this.Debug_Chk.Size = new System.Drawing.Size(58, 17);
             this.Debug_Chk.TabIndex = 4;
@@ -128,7 +138,7 @@
             // Debug_Quit
             // 
             this.Debug_Quit.AutoSize = true;
-            this.Debug_Quit.Location = new System.Drawing.Point(413, 44);
+            this.Debug_Quit.Location = new System.Drawing.Point(638, 44);
             this.Debug_Quit.Name = "Debug_Quit";
             this.Debug_Quit.Size = new System.Drawing.Size(73, 17);
             this.Debug_Quit.TabIndex = 6;
@@ -145,35 +155,15 @@
             this.I_Table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.No,
             this.Chk,
-            this.Attribute});
+            this.Attribute,
+            this.Type});
             this.I_Table.Location = new System.Drawing.Point(3, 48);
             this.I_Table.Name = "I_Table";
             this.I_Table.RowHeadersVisible = false;
             this.I_Table.RowTemplate.ReadOnly = true;
-            this.I_Table.Size = new System.Drawing.Size(248, 144);
+            this.I_Table.Size = new System.Drawing.Size(467, 144);
             this.I_Table.TabIndex = 7;
             this.I_Table.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Chk_Click);
-            // 
-            // No
-            // 
-            this.No.FillWeight = 42.2723F;
-            this.No.HeaderText = "No";
-            this.No.Name = "No";
-            this.No.ReadOnly = true;
-            // 
-            // Chk
-            // 
-            this.Chk.FillWeight = 30.45686F;
-            this.Chk.HeaderText = "";
-            this.Chk.Name = "Chk";
-            this.Chk.ReadOnly = true;
-            // 
-            // Attribute
-            // 
-            this.Attribute.FillWeight = 227.2709F;
-            this.Attribute.HeaderText = "Attribute";
-            this.Attribute.Name = "Attribute";
-            this.Attribute.ReadOnly = true;
             // 
             // Attrib_Panel
             // 
@@ -185,12 +175,12 @@
             this.Attrib_Panel.Controls.Add(this.I_Table);
             this.Attrib_Panel.Location = new System.Drawing.Point(13, 69);
             this.Attrib_Panel.Name = "Attrib_Panel";
-            this.Attrib_Panel.Size = new System.Drawing.Size(255, 196);
+            this.Attrib_Panel.Size = new System.Drawing.Size(473, 196);
             this.Attrib_Panel.TabIndex = 8;
             // 
             // Slt_Invert
             // 
-            this.Slt_Invert.Location = new System.Drawing.Point(191, 17);
+            this.Slt_Invert.Location = new System.Drawing.Point(136, 17);
             this.Slt_Invert.Name = "Slt_Invert";
             this.Slt_Invert.Size = new System.Drawing.Size(60, 25);
             this.Slt_Invert.TabIndex = 11;
@@ -200,7 +190,7 @@
             // 
             // Slt_None
             // 
-            this.Slt_None.Location = new System.Drawing.Point(97, 17);
+            this.Slt_None.Location = new System.Drawing.Point(70, 17);
             this.Slt_None.Name = "Slt_None";
             this.Slt_None.Size = new System.Drawing.Size(60, 25);
             this.Slt_None.TabIndex = 10;
@@ -244,7 +234,7 @@
             this.panel1.Controls.Add(this.D_Freq);
             this.panel1.Controls.Add(this.D_Width);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(275, 69);
+            this.panel1.Location = new System.Drawing.Point(500, 176);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(211, 93);
             this.panel1.TabIndex = 10;
@@ -297,7 +287,7 @@
             this.panel2.Controls.Add(this.N_Zscore);
             this.panel2.Controls.Add(this.N_MinMax);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Location = new System.Drawing.Point(275, 168);
+            this.panel2.Location = new System.Drawing.Point(500, 69);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(211, 97);
             this.panel2.TabIndex = 11;
@@ -334,7 +324,7 @@
             // panel3
             // 
             this.panel3.Controls.Add(this.D_Table);
-            this.panel3.Location = new System.Drawing.Point(275, 271);
+            this.panel3.Location = new System.Drawing.Point(500, 271);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(211, 278);
             this.panel3.TabIndex = 12;
@@ -370,11 +360,96 @@
             this.Value.Name = "Value";
             this.Value.ReadOnly = true;
             // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.numAttrib);
+            this.panel4.Controls.Add(this.label4);
+            this.panel4.Location = new System.Drawing.Point(188, 40);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(175, 23);
+            this.panel4.TabIndex = 13;
+            // 
+            // panel5
+            // 
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.numSample);
+            this.panel5.Controls.Add(this.label5);
+            this.panel5.Location = new System.Drawing.Point(391, 40);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(176, 23);
+            this.panel5.TabIndex = 14;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Attribute";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(42, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Sample";
+            // 
+            // numAttrib
+            // 
+            this.numAttrib.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numAttrib.Location = new System.Drawing.Point(55, 5);
+            this.numAttrib.Name = "numAttrib";
+            this.numAttrib.ReadOnly = true;
+            this.numAttrib.Size = new System.Drawing.Size(115, 13);
+            this.numAttrib.TabIndex = 1;
+            // 
+            // numSample
+            // 
+            this.numSample.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numSample.Location = new System.Drawing.Point(56, 5);
+            this.numSample.Name = "numSample";
+            this.numSample.ReadOnly = true;
+            this.numSample.Size = new System.Drawing.Size(115, 13);
+            this.numSample.TabIndex = 2;
+            // 
+            // No
+            // 
+            this.No.FillWeight = 42.2723F;
+            this.No.HeaderText = "No";
+            this.No.Name = "No";
+            this.No.ReadOnly = true;
+            // 
+            // Chk
+            // 
+            this.Chk.FillWeight = 30.45686F;
+            this.Chk.HeaderText = "";
+            this.Chk.Name = "Chk";
+            this.Chk.ReadOnly = true;
+            // 
+            // Attribute
+            // 
+            this.Attribute.FillWeight = 227.2709F;
+            this.Attribute.HeaderText = "Attribute";
+            this.Attribute.Name = "Attribute";
+            this.Attribute.ReadOnly = true;
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 561);
+            this.ClientSize = new System.Drawing.Size(723, 561);
+            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -387,8 +462,7 @@
             this.Controls.Add(this.F_Save);
             this.Controls.Add(this.F_Load);
             this.Controls.Add(this.F_Path);
-            this.MaximumSize = new System.Drawing.Size(520, 600);
-            this.MinimumSize = new System.Drawing.Size(520, 600);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Weka Implement";
             ((System.ComponentModel.ISupportInitialize)(this.I_Table)).EndInit();
@@ -400,6 +474,10 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.D_Table)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -415,9 +493,6 @@
         private System.Windows.Forms.Button I_Info;
         private System.Windows.Forms.CheckBox Debug_Quit;
         private System.Windows.Forms.DataGridView I_Table;
-        private System.Windows.Forms.DataGridViewTextBoxColumn No;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Chk;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Attribute;
         private System.Windows.Forms.Panel Attrib_Panel;
         private System.Windows.Forms.Button Slt_Invert;
         private System.Windows.Forms.Button Slt_None;
@@ -438,6 +513,16 @@
         private System.Windows.Forms.DataGridView D_Table;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.TextBox numAttrib;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.TextBox numSample;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn No;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Chk;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Attribute;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
     }
     public class Instances
     {
@@ -448,6 +533,11 @@
     {
         public System.Collections.Generic.List<Instances> Info { get; set; }
         public System.Collections.Generic.List<object[]> Data { get; set; }
+    }
+    public class BinData
+    {
+        public string RangeValue { get; set; }
+        public string AverageValue { get; set; }
     }
 }
 
