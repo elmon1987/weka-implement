@@ -397,5 +397,10 @@
         public System.Collections.Generic.List<Instances> Info { get; set; }
         public System.Collections.Generic.List<object[]> Data { get; set; }
     }
+    public class BinData
+    {
+        public string RangeValue { get; set; }
+        public string AverageValue { get; set; }
+    }
 }
 

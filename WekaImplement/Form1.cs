@@ -266,16 +266,9 @@ namespace WekaImplement
                 DataProcessor(lines);
 
                 I_Info.PerformClick();
-                //DataProcess(lines);
+
                 getTable(dataset);
-
-                /*if (Debug_Chk.Checked)
-                {
-                    MessageBox.Show(getMean(0).ToString(), "Mean");
-                    MessageBox.Show(getMedian(0).ToString(), "Median");
-                    MessageBox.Show(getMode(2).ToString(), "Mode");
-                }*/
-
+                
                 this.Text = "Weka Implement";
                 MessageBox.Show("Load success!", "Notification");
             }          
@@ -375,81 +368,210 @@ namespace WekaImplement
         #endregion
         private void D_Width_Click(object sender, EventArgs e)
         {
-            if (numBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");
+            int bin;
+            double range; 
+            if (numBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");                       //check input
+            else if (!int.TryParse(numBin.Text,out bin)) MessageBox.Show("Wrong input","Notification");
             else
             {
-                
+                debugTable();
+                if (attIndex.Count == 0)
+                    MessageBox.Show("Not choose attribute yet!", "Notification");                   
+                else
+                {
+                    List<List<BinData>> res = new List<List<BinData>>();
+                    for (int i = 0; i < attIndex.Count; ++i)
+                    {
+                        if (dataset.Info[attIndex[i]].Type == "Nominal")
+                            MessageBox.Show("This attribute can't discretize by width!", "Notification");           //check condition
+                        else
+                        {
+                            List<double> dtemp = new List<double>();
+                            List<BinData> btemp = new List<BinData>();
+
+                            foreach (object o in dataset.Data[attIndex[i]])                    //get value from dataset     
+                                if (o.GetType() == typeof(double)) dtemp.Add((double)o);
+
+                            if (Debug_Chk.Checked) MessageBox.Show(dtemp.Count.ToString(), "Count dtemp Debug");
+                            
+                            dtemp.Sort();
+                            range = (dtemp[dtemp.Count - 1] - dtemp[0]) / bin;                 //calculate range
+                            double rtemp = range + dtemp[0];
+                            for (int j = 0; j < bin; ++j)
+                            {
+                                string rangevalue,aver;                                  
+                                List<double> tmp = new List<double>();
+                                while (dtemp.Count != 0 && dtemp[0] < rtemp)                   //take all data on each range
+                                {
+                                    tmp.Add(dtemp[0]);
+                                    dtemp.RemoveAt(0);
+                                }
+                                if(tmp.Count == 0)                                            //case of empty bin
+                                    aver = "0";
+                                else                                
+                                    aver = Math.Round(tmp.Average(), 3).ToString();          //save average of each bin and rangevalue                                    
+                                rangevalue = (rtemp - range).ToString() + " - " + rtemp.ToString();       
+                                rtemp += range;                                          
+                                btemp.Add(new BinData { RangeValue = rangevalue, AverageValue = aver });
+                            }
+                            res.Add(btemp);                            //add all bin of each attribute to result                 
+
+                                if (Debug_Chk.Checked)
+                                {
+                                    string _res = "";
+                                    foreach (BinData bd in res[0])
+                                        _res += bd.AverageValue + " " + bd.RangeValue + "\r\n";
+                                    MessageBox.Show(_res, "First BinData Debug");
+                                }                             
+                        }
+                    }
+                }
             }
         }
 
         private void D_Freq_Click(object sender, EventArgs e)
         {
-            if (weightBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");
+            int bin;
+            if (weightBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");                //check input
+            else if (!int.TryParse(weightBin.Text, out bin)) MessageBox.Show("Wrong input", "Notification");
             else
             {
-                //TODO
+                debugTable();
+                if (attIndex.Count == 0)
+                    MessageBox.Show("Not choose attribute yet!", "Notification");
+                else
+                {
+                    List<List<BinData>> res = new List<List<BinData>>();
+                    for (int i = 0; i < attIndex.Count; ++i)
+                    {
+                        if (dataset.Info[attIndex[i]].Type == "Nominal")                            //check condition
+                            MessageBox.Show("It's NOT make sense!", "Notification");    
+                        else
+                        {
+                            List<double> dtemp = new List<double>();
+                            List<BinData> btemp = new List<BinData>();
+
+                            foreach (object o in dataset.Data[attIndex[i]])                    //get value from dataset     
+                                if (o.GetType() == typeof(double)) dtemp.Add((double)o);
+
+                            if (Debug_Chk.Checked) MessageBox.Show(dtemp.Count.ToString(), "Count dtemp Debug");
+
+                            dtemp.Sort();
+                            while(dtemp.Count != 0)
+                            {
+                                string rangevalue, aver;
+                                List<double> tmp = new List<double>();
+
+                                for (int j = 0; j < bin; ++j)                               //take data to bin
+                                {
+                                    tmp.Add(dtemp[0]);
+                                    dtemp.RemoveAt(0);
+                                    if (dtemp.Count == 0) break;
+                                }
+
+                                aver = Math.Round(tmp.Average(),3).ToString();              //calculate average
+
+                                if (tmp.Count == 1)
+                                    rangevalue = tmp[0].ToString();
+                                else
+                                {
+                                    if (tmp.Count > 2)
+                                        tmp.RemoveRange(1, tmp.Count - 2);
+                                    rangevalue = tmp[0].ToString() + " - " + tmp[1].ToString();                                        
+                                }
+                                btemp.Add(new BinData { RangeValue = rangevalue, AverageValue = aver });
+                            }
+                            res.Add(btemp);                            //add all bin of each attribute to result                 
+
+                            if (Debug_Chk.Checked)
+                            {
+                                string _res = "";
+                                foreach (BinData bd in res[0])
+                                    _res += bd.AverageValue + " " + bd.RangeValue + "\r\n";
+                                MessageBox.Show(_res, "First BinData Debug");
+                            }
+                        }
+                    }
+                }
             }
         }
 
         private void I_Fill_Click(object sender, EventArgs e)
         {
+            DataSet temp_data = dataset;
             if (Debug_Chk.Checked)
             {
                 this.Text = "Debug Mode";
                 string _res = "";
-                foreach (object o in dataset.Data[3])
+                foreach (object o in temp_data.Data[3])
                 {
                     _res += o.ToString() + " " + o.GetType().ToString() + "\n";
                 }
                 MessageBox.Show(_res);
             }
             
-            for (int i = 0; i < dataset.Info.Count; i++)
+            for (int i = 0; i < temp_data.Info.Count; i++)
             {
-                if (dataset.Info[i].Type == "Numerical")
+                if (temp_data.Info[i].Type == "Numerical")
                 {
                     double _tmp = getMean(i);
-                    for (int j = 0; j < dataset.Data[i].Length; j++)
+                    for (int j = 0; j < temp_data.Data[i].Length; j++)
                     {
-                        if (dataset.Data[i][j].GetType() == typeof(string))
-                            dataset.Data[i][j] = _tmp;
+                        if (temp_data.Data[i][j].GetType() == typeof(string))
+                            temp_data.Data[i][j] = _tmp;
                     }
                 }
                 else
                 {
                     string _tmp = getMode(i);
-                    for (int j = 0; j < dataset.Data[i].Length; j++)
+                    for (int j = 0; j < temp_data.Data[i].Length; j++)
                     {
-                        if ((string)dataset.Data[i][j] == "?")
-                            dataset.Data[i][j] = _tmp;
+                        if ((string)temp_data.Data[i][j] == "?")
+                            temp_data.Data[i][j] = _tmp;
                     }
                 }
             }
 
-            
+            //Print out and save
+            string header = "";
+            foreach (Instances ins in temp_data.Info)
+                header += "\"" + ins.Attribute + "\",";
+            header = header.Substring(0, header.Length - 1) + "\r\n";
+            if (Debug_Chk.Checked) F_Data.Text = header;
+
+            string data = "";
+            for (int i = 0; i < temp_data.Data[0].Length; i++)
+            {
+                for (int j = 0; j < temp_data.Info.Count; j++)
+                {
+                    data += temp_data.Data[j][i] + ",";
+                }
+                data = data.Substring(0,data.Length-1) + "\r\n";
+            }
+            F_Data.Text = header + data;
         }
 
         private void N_MinMax_Click(object sender, EventArgs e)
         {
             debugTable();
             if(attIndex.Count == 0)
-                MessageBox.Show("Not choose attribute yet!", "Notification");
+                MessageBox.Show("Not choose attribute yet!", "Notification");               //check input
             else
             {
                 List<List<double>> res = new List<List<double>>();
                 for (int i = 0; i < attIndex.Count; ++i)
                 {
-                    if (dataset.Info[attIndex[i]].Type == "Nominal")
+                    if (dataset.Info[attIndex[i]].Type == "Nominal")                            //check condition
                         MessageBox.Show("This attribute can't normalize!", "Notification");
                     else
                     {
                         List<double> temp = new List<double>();
-                        foreach (object o in dataset.Data[attIndex[i]])
+                        foreach (object o in dataset.Data[attIndex[i]])                 //get data from dataset
                             temp.Add((double)o);
 
                         double min = temp.Min(), max = temp.Max();
 
-                        for (int j = 0; j < temp.Count; ++j)
+                        for (int j = 0; j < temp.Count; ++j)                            //normalize
                             temp[j] = (temp[j] - min) / (max - min);
 
                         if (Debug_Chk.Checked)
@@ -460,7 +582,7 @@ namespace WekaImplement
                             MessageBox.Show(_res, "temp Debug");
                         }
 
-                        res.Add(temp);                       //output data
+                        res.Add(temp);                       //  output data
                         MessageBox.Show(res.Count.ToString(), "Count res Debug");
                     }
                     
@@ -486,15 +608,15 @@ namespace WekaImplement
                         foreach (object o in dataset.Data[attIndex[i]])
                             temp.Add((double)o);
 
-                        double mean = temp.Average(), sumofSqr = 0;
-                        for (int j = 0; j < temp.Count; ++j)      //calculate v' = v - u
+                        double mean = temp.Average(), sumofSqr = 0;                  //calculate mean
+                        for (int j = 0; j < temp.Count; ++j)      //calculate v' = v - mean
                             temp[j] = temp[j] - mean;
 
-                        for (int j = 0; j < temp.Count; ++j)
+                        for (int j = 0; j < temp.Count; ++j)                         //calculate sum of square
                             sumofSqr += Math.Pow(temp[j], 2);
 
                         for (int j = 0; j < temp.Count; ++j)
-                            temp[j] = Math.Round(temp[j]/Math.Sqrt(sumofSqr/temp.Count),4);
+                            temp[j] = Math.Round(temp[j]/Math.Sqrt(sumofSqr/temp.Count),4);     //calculate stddev
 
                             if (Debug_Chk.Checked)
                             {
