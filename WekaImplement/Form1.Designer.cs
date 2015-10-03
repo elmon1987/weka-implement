@@ -536,7 +536,8 @@
     }
     public class BinData
     {
-        public string RangeValue { get; set; }
+        public double First  { get; set; }
+        public double Last { get; set; }
         public string AverageValue { get; set; }
     }
 }
