@@ -243,12 +243,7 @@ namespace WekaImplement
                     instances += line + "\r\n"; //save data into instances
                 }
 
-                //Debug
-                if (Debug_Chk.Checked)
-                {
-                    F_Data.Text = instances; //test load
-                    this.Text = "Debug Mode";
-                }
+                F_Data.Text = instances;
 
                 DataProcessor(lines);
 

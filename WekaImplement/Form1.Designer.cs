@@ -37,6 +37,10 @@
             this.I_Info = new System.Windows.Forms.Button();
             this.Debug_Quit = new System.Windows.Forms.CheckBox();
             this.I_Table = new System.Windows.Forms.DataGridView();
+            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Chk = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Attribute = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Attrib_Panel = new System.Windows.Forms.Panel();
             this.Slt_Invert = new System.Windows.Forms.Button();
             this.Slt_None = new System.Windows.Forms.Button();
@@ -58,15 +62,11 @@
             this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.numAttrib = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.numSample = new System.Windows.Forms.TextBox();
-            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Chk = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Attribute = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.I_Table)).BeginInit();
             this.Attrib_Panel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -110,6 +110,7 @@
             this.F_Data.Location = new System.Drawing.Point(13, 271);
             this.F_Data.Multiline = true;
             this.F_Data.Name = "F_Data";
+            this.F_Data.ReadOnly = true;
             this.F_Data.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.F_Data.Size = new System.Drawing.Size(481, 278);
             this.F_Data.TabIndex = 3;
@@ -164,6 +165,33 @@
             this.I_Table.Size = new System.Drawing.Size(467, 144);
             this.I_Table.TabIndex = 7;
             this.I_Table.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Chk_Click);
+            // 
+            // No
+            // 
+            this.No.FillWeight = 42.2723F;
+            this.No.HeaderText = "No";
+            this.No.Name = "No";
+            this.No.ReadOnly = true;
+            // 
+            // Chk
+            // 
+            this.Chk.FillWeight = 30.45686F;
+            this.Chk.HeaderText = "";
+            this.Chk.Name = "Chk";
+            this.Chk.ReadOnly = true;
+            // 
+            // Attribute
+            // 
+            this.Attribute.FillWeight = 227.2709F;
+            this.Attribute.HeaderText = "Attribute";
+            this.Attribute.Name = "Attribute";
+            this.Attribute.ReadOnly = true;
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
             // 
             // Attrib_Panel
             // 
@@ -370,15 +398,14 @@
             this.panel4.Size = new System.Drawing.Size(175, 23);
             this.panel4.TabIndex = 13;
             // 
-            // panel5
+            // numAttrib
             // 
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.numSample);
-            this.panel5.Controls.Add(this.label5);
-            this.panel5.Location = new System.Drawing.Point(391, 40);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(176, 23);
-            this.panel5.TabIndex = 14;
+            this.numAttrib.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numAttrib.Location = new System.Drawing.Point(55, 5);
+            this.numAttrib.Name = "numAttrib";
+            this.numAttrib.ReadOnly = true;
+            this.numAttrib.Size = new System.Drawing.Size(115, 13);
+            this.numAttrib.TabIndex = 1;
             // 
             // label4
             // 
@@ -389,23 +416,15 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Attribute";
             // 
-            // label5
+            // panel5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 13);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Sample";
-            // 
-            // numAttrib
-            // 
-            this.numAttrib.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numAttrib.Location = new System.Drawing.Point(55, 5);
-            this.numAttrib.Name = "numAttrib";
-            this.numAttrib.ReadOnly = true;
-            this.numAttrib.Size = new System.Drawing.Size(115, 13);
-            this.numAttrib.TabIndex = 1;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.numSample);
+            this.panel5.Controls.Add(this.label5);
+            this.panel5.Location = new System.Drawing.Point(391, 40);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(176, 23);
+            this.panel5.TabIndex = 14;
             // 
             // numSample
             // 
@@ -416,32 +435,14 @@
             this.numSample.Size = new System.Drawing.Size(115, 13);
             this.numSample.TabIndex = 2;
             // 
-            // No
+            // label5
             // 
-            this.No.FillWeight = 42.2723F;
-            this.No.HeaderText = "No";
-            this.No.Name = "No";
-            this.No.ReadOnly = true;
-            // 
-            // Chk
-            // 
-            this.Chk.FillWeight = 30.45686F;
-            this.Chk.HeaderText = "";
-            this.Chk.Name = "Chk";
-            this.Chk.ReadOnly = true;
-            // 
-            // Attribute
-            // 
-            this.Attribute.FillWeight = 227.2709F;
-            this.Attribute.HeaderText = "Attribute";
-            this.Attribute.Name = "Attribute";
-            this.Attribute.ReadOnly = true;
-            // 
-            // Type
-            // 
-            this.Type.HeaderText = "Type";
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(42, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Sample";
             // 
             // Form1
             // 
