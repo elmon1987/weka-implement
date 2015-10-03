@@ -502,6 +502,9 @@ namespace WekaImplement
                 else
                 {
                     List<object[]> Bindata = new List<object[]>();                         // Data after equal weight hold at here!
+                    
+                    List<List<BinData>> _out = new List<List<BinData>>();
+                    
                     for (int i = 0; i < attIndex.Count; ++i)
                     {
                         if (dataset.Info[attIndex[i]].Type == "Nominal")                            //check condition
@@ -553,15 +556,53 @@ namespace WekaImplement
                                     }
                             }
 
-                                if (Debug_Chk.Checked)
+                                /*if (Debug_Chk.Checked)
                                 {
                                     string _res = "";
                                     foreach (object o in Bindata[i])
                                         _res += o.ToString() + " ";
                                     MessageBox.Show(_res, "First BinData Debug");
+                                }*/
+                                if (Debug_Chk.Checked)
+                                {
+                                    string _res = "";
+                                    foreach (BinData bd in btemp)
+                                        _res += bd.First + "-" + bd.Last + "\t" + bd.AverageValue + "\r\n";
+                                    MessageBox.Show(_res, "Bin weight range Debug"); 
                                 }
+                                _out.Add(btemp);
+
                         }
+                                if (Debug_Quit.Checked)
+                                {
+                                string _res = ""; 
+                                for (int k = 0; k < _out[0].Count; k++)
+                                {
+                                    for (int j = 0; j < _out.Count; j++)
+                                    {
+                                        _res += _out[j][k].First.ToString() + "-" + _out[j][k].Last.ToString() + ",";
+                                    }
+                                    _res = _res.Substring(0, _res.Length - 1) + "\r\n";
+                                }
+                                F_Data.Text = _res;     
+                                MessageBox.Show("");
+                                Application.Exit();
+                            }
                     }
+
+                    //Print result to saving
+                    string _output = "";
+                    for (int k = 0; k < Bindata[0].Length; k++)
+                    {
+                        for (int j = 0; j < Bindata.Count; j++)
+                        {
+                            _output += Bindata[j][k].ToString() + ",";
+                        }
+                        _output = _output.Substring(0, _output.Length - 1) + "\r\n";
+                    }
+                    
+                    F_Data.Text = header + _output;
+
                 }
             }
         }
