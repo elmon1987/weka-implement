@@ -352,12 +352,12 @@ namespace WekaImplement
             this.Text = "Weka Implement";
         }
 
-        private void D_Width_Click(object sender, EventArgs e) //URGENT FIX
+        private void D_Width_Click(object sender, EventArgs e) //done
         {
             int bin;
             double range; 
             if (numBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");                       //check input
-            else if (!int.TryParse(numBin.Text,out bin)) MessageBox.Show("Wrong input","Notification");
+            else if (!int.TryParse(numBin.Text,out bin) || bin == 1) MessageBox.Show("Wrong input","Notification");
             else
             {
                 //Invoke result table
@@ -370,29 +370,38 @@ namespace WekaImplement
                     MessageBox.Show("Not choose attribute yet!", "Notification");                   
                 else
                 {
-                    List<List<BinData>> res = new List<List<BinData>>();
+                    
+                    List<object[]> Bindata = new List<object[]>();                         // Data after equal width hold at here!
                     for (int i = 0; i < attIndex.Count; ++i)
                     {
                         if (dataset.Info[attIndex[i]].Type == "Nominal")
                             MessageBox.Show("This attribute can't discretize by width!", "Notification");           //check condition
                         else
-                        {
+                        {                           
                             List<double> dtemp = new List<double>();
                             List<BinData> btemp = new List<BinData>();
 
                             foreach (object o in dataset.Data[attIndex[i]])                    //get value from dataset     
-                                if (o.GetType() == typeof(double)) dtemp.Add((double)o);
+                                if (o.GetType() == typeof(double)) dtemp.Add((double)o);      
+                      
+                            Bindata.Add(dataset.Data[attIndex[i]]);                         //copy data from origin
 
                             if (Debug_Chk.Checked) MessageBox.Show(dtemp.Count.ToString(), "Count dtemp Debug");
+
                             
                             dtemp.Sort();
-                            range = (dtemp[dtemp.Count - 1] - dtemp[0]) / bin;                 //calculate range
+                            range = Math.Round((dtemp[dtemp.Count - 1] - dtemp[0]) / (bin - 1),4);                 //calculate range   , NOTE: special case: bin = 1
                             double rtemp = range + dtemp[0];
-                            for (int j = 0; j < bin; ++j)
+
+                            btemp.Add(new BinData { First = dtemp[0] - 1, Last = dtemp[0], AverageValue = "-inf" });
+                            dtemp.RemoveAt(0);
+
+                            for (int j = 1; j < bin; ++j)
                             {
-                                string rangevalue,aver;                                  
+                                string aver;
+                                double first, last; 
                                 List<double> tmp = new List<double>();
-                                while (dtemp.Count != 0 && dtemp[0] < rtemp)                   //take all data on each range
+                                while (dtemp.Count != 0 && dtemp[0] <= rtemp)                   //take all data on each range
                                 {
                                     tmp.Add(dtemp[0]);
                                     dtemp.RemoveAt(0);
@@ -400,39 +409,42 @@ namespace WekaImplement
                                 if(tmp.Count == 0)                                            //case of empty bin
                                     aver = "0";
                                 else                                
-                                    aver = Math.Round(tmp.Average(), 3).ToString();          //save average of each bin and rangevalue                                    
-                                rangevalue = (rtemp - range).ToString() + " - " + rtemp.ToString();       
+                                    aver = Math.Round(tmp.Average(), 3).ToString();          //save                                    
+                                first = rtemp - range;
+                                last = rtemp;
                                 rtemp += range;                                          
-                                btemp.Add(new BinData { RangeValue = rangevalue, AverageValue = aver });
+                                btemp.Add(new BinData { First = first, Last = last, AverageValue = aver });
                             }
-                            res.Add(btemp);                            //add all bin of each attribute to result                 
 
-                            if (Debug_Chk.Checked)
+                            //  change data after discretizing.
+                            for (int j = 0; j < Bindata[i].Length; ++j)
                             {
-                                string _res = "";
-                                foreach (BinData bd in res[0])
-                                    _res += bd.AverageValue + " " + bd.RangeValue + "\r\n";
-                                MessageBox.Show(_res, "First BinData Debug");
-                            }      
-                       
-                            //Print data to review before save
-                            string _output = "";
-                            foreach (List<BinData> l_bin in res)
-                            {
-                                foreach (BinData bd in l_bin)
-                                {
-                                    _output += bd.RangeValue + "\t|\t" + bd.AverageValue + "\r\n";
-                                }
-                                _output += "\r\n==========\r\n";
+                                foreach(BinData bd in btemp)
+                                    if ((double)Bindata[i][j] > bd.First && (double)Bindata[i][j] <= bd.Last)
+                                    {
+                                        if (bd.AverageValue == "-inf")
+                                            Bindata[i][j] = (object)("(-inf" + "-" + bd.Last.ToString() + "]");
+                                        else
+                                            Bindata[i][j] = (object)("(" + bd.First.ToString() + "-" + bd.Last.ToString() + "]");
+
+                                        break;
+                                    }
                             }
-                            F_Data.Text = _output;
+
+                                if (Debug_Chk.Checked)
+                                {
+                                    string _res = "";
+                                    foreach (object o in Bindata[i])
+                                        _res += o.ToString() + " ";
+                                    MessageBox.Show(_res, "First BinData Debug");
+                                }                                                         
                         }
                     }
                 }
             }
         }
 
-        private void D_Freq_Click(object sender, EventArgs e) //URGENT FIX
+        private void D_Freq_Click(object sender, EventArgs e) //finished but not confirm
         {
             int bin;
             if (weightBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");                //check input
@@ -444,7 +456,7 @@ namespace WekaImplement
                     MessageBox.Show("Not choose attribute yet!", "Notification");
                 else
                 {
-                    List<List<BinData>> res = new List<List<BinData>>();
+                    List<object[]> Bindata = new List<object[]>();                         // Data after equal weight hold at here!
                     for (int i = 0; i < attIndex.Count; ++i)
                     {
                         if (dataset.Info[attIndex[i]].Type == "Nominal")                            //check condition
@@ -459,10 +471,13 @@ namespace WekaImplement
 
                             if (Debug_Chk.Checked) MessageBox.Show(dtemp.Count.ToString(), "Count dtemp Debug");
 
+                            Bindata.Add(dataset.Data[attIndex[i]]);                     //copy data from origin
+
                             dtemp.Sort();
                             while(dtemp.Count != 0)
                             {
-                                string rangevalue, aver;
+                                string aver;
+                                double first, last;
                                 List<double> tmp = new List<double>();
 
                                 for (int j = 0; j < bin; ++j)                               //take data to bin
@@ -473,32 +488,39 @@ namespace WekaImplement
                                 }
 
                                 aver = Math.Round(tmp.Average(),3).ToString();              //calculate average
+                                first = tmp[0];
 
-                                if (tmp.Count == 1)
-                                    rangevalue = tmp[0].ToString();
-                                else
-                                {
-                                    if (tmp.Count > 2)
-                                        tmp.RemoveRange(1, tmp.Count - 2);
-                                    rangevalue = tmp[0].ToString() + " - " + tmp[1].ToString();                                        
-                                }
-                                btemp.Add(new BinData { RangeValue = rangevalue, AverageValue = aver });
+                                if (tmp.Count > 2)
+                                    tmp.RemoveRange(1, tmp.Count - 2);
+
+                                last = tmp[tmp.Count - 1]; 
+                                       
+                                btemp.Add(new BinData { First = first, Last = last, AverageValue = aver });
                             }
-                            res.Add(btemp);                            //add all bin of each attribute to result                 
-
-                            if (Debug_Chk.Checked)
+                            //  change data after discretizing.
+                            for (int j = 0; j < Bindata[i].Length; ++j)
                             {
-                                string _res = "";
-                                foreach (BinData bd in res[0])
-                                    _res += bd.AverageValue + " " + bd.RangeValue + "\r\n";
-                                MessageBox.Show(_res, "First BinData Debug");
+                                foreach (BinData bd in btemp)
+                                    if ((double)Bindata[i][j] >= bd.First && (double)Bindata[i][j] <= bd.Last)
+                                    {
+                                        Bindata[i][j] = (object)("[" + bd.First.ToString() + "-" + bd.Last.ToString() + "]");
+                                        break;
+                                    }
                             }
+
+                                if (Debug_Chk.Checked)
+                                {
+                                    string _res = "";
+                                    foreach (object o in Bindata[i])
+                                        _res += o.ToString() + " ";
+                                    MessageBox.Show(_res, "First BinData Debug");
+                                }
                         }
                     }
                 }
             }
         }
-
+        
         private void I_Fill_Click(object sender, EventArgs e) //Fill missing value of dataset
         {
             DataSet temp_data = dataset;
