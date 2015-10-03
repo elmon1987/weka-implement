@@ -555,20 +555,6 @@ namespace WekaImplement
                                         break;
                                     }
                             }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                /*if (Debug_Chk.Checked)
-=======
-                                if (Debug_Chk.Checked)
->>>>>>> parent of ba59f3d... no message
-                                {
-                                    string _res = "";
-                                    foreach (object o in Bindata[i])
-                                        _res += o.ToString() + " ";
-                                    MessageBox.Show(_res, "First BinData Debug");
-<<<<<<< HEAD
-                                }*/
                                 if (Debug_Chk.Checked)
                                 {
                                     string _res = "";
@@ -594,36 +580,7 @@ namespace WekaImplement
                                 MessageBox.Show("");
                                 Application.Exit();
                             }
-                    }
-
-                    //Print result to saving
-                    string _output = "";
-                    for (int k = 0; k < Bindata[0].Length; k++)
-                    {
-                        for (int j = 0; j < Bindata.Count; j++)
-                        {
-                            _output += Bindata[j][k].ToString() + ",";
-                        }
-                        _output = _output.Substring(0, _output.Length - 1) + "\r\n";
-=======
-                            string _res = "Attribute: " + dataset.Info[i].Attribute + "\n";
-                            foreach (BinData bd in btemp)
-                                if (bd.AverageValue == "-inf")
-                                    _res += "Range: " + bd.First + "-" + bd.Last + "\t" + "Value: " + bd.Last + "\r\n";
-                                else
-                                    _res += "Range: " + bd.First + "-" + bd.Last + "\t" + "Value: " + bd.AverageValue + "\r\n";
-                            MessageBox.Show(_res, dataset.Info[i].Attribute); 
-                        }
-                        //TODO PRINT RESULT TO SAVE
->>>>>>> ba59f3d9a8f676209be05c8d4eca97ba6f9e6891
-=======
-                                }
-                        }
->>>>>>> parent of ba59f3d... no message
-                    }
-                    
-                    F_Data.Text = header + _output;
-
+                    }                       
                 }
             }
         }
