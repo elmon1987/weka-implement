@@ -25,3 +25,12 @@ C:\Users\User-Admin\Desktop\weka-implement\WekaImplement\obj\Debug\WekaImplement
 C:\Users\User-Admin\Desktop\weka-implement\WekaImplement\obj\Debug\WekaImplement.csproj.GenerateResource.Cache
 C:\Users\User-Admin\Desktop\weka-implement\WekaImplement\obj\Debug\WekaImplement.exe
 C:\Users\User-Admin\Desktop\weka-implement\WekaImplement\obj\Debug\WekaImplement.pdb
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\bin\Debug\WekaImplement.exe.config
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\obj\Debug\WekaImplement.exe
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\obj\Debug\WekaImplement.pdb
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\obj\Debug\WekaImplement.csprojResolveAssemblyReference.cache
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\obj\Debug\WekaImplement.Form1.resources
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\obj\Debug\WekaImplement.Properties.Resources.resources
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\obj\Debug\WekaImplement.csproj.GenerateResource.Cache
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\bin\Debug\WekaImplement.exe
+C:\Users\User-Admin\Documents\weka-implement\WekaImplement\bin\Debug\WekaImplement.pdb

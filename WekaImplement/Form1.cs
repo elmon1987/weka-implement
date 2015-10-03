@@ -46,8 +46,6 @@ namespace WekaImplement
             I_Table.Columns[0].ValueType = typeof(int);
         }
 
-        private void pass();
-
         #region Tooltips
         private string Parser(object[] data) //Get type of attribute
         {
