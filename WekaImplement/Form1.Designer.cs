@@ -57,6 +57,10 @@
             this.N_Zscore = new System.Windows.Forms.Button();
             this.N_MinMax = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.D_Table = new System.Windows.Forms.DataGridView();
+            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel4 = new System.Windows.Forms.Panel();
             this.numAttrib = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -67,6 +71,8 @@
             this.Attrib_Panel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.D_Table)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -343,6 +349,45 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Normalize";
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.D_Table);
+            this.panel3.Location = new System.Drawing.Point(500, 271);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(211, 278);
+            this.panel3.TabIndex = 12;
+            // 
+            // D_Table
+            // 
+            this.D_Table.AllowUserToAddRows = false;
+            this.D_Table.AllowUserToDeleteRows = false;
+            this.D_Table.AllowUserToResizeRows = false;
+            this.D_Table.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.D_Table.ColumnHeadersHeight = 20;
+            this.D_Table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.D_Table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Data,
+            this.Value});
+            this.D_Table.Location = new System.Drawing.Point(4, 4);
+            this.D_Table.Name = "D_Table";
+            this.D_Table.RowHeadersVisible = false;
+            this.D_Table.Size = new System.Drawing.Size(204, 271);
+            this.D_Table.TabIndex = 0;
+            // 
+            // Data
+            // 
+            this.Data.FillWeight = 142.132F;
+            this.Data.HeaderText = "";
+            this.Data.Name = "Data";
+            this.Data.ReadOnly = true;
+            // 
+            // Value
+            // 
+            this.Value.FillWeight = 57.86803F;
+            this.Value.HeaderText = "";
+            this.Value.Name = "Value";
+            this.Value.ReadOnly = true;
+            // 
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -406,6 +451,7 @@
             this.ClientSize = new System.Drawing.Size(723, 561);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.I_Fill);
@@ -427,6 +473,8 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.D_Table)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
@@ -462,6 +510,10 @@
         private System.Windows.Forms.Button N_MinMax;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button N_Zscore;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.DataGridView D_Table;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Data;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TextBox numAttrib;
         private System.Windows.Forms.Label label4;
