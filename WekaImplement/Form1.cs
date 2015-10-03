@@ -360,11 +360,6 @@ namespace WekaImplement
             else if (!int.TryParse(numBin.Text,out bin) || bin == 1) MessageBox.Show("Wrong input","Notification");
             else
             {
-                //Invoke result table
-                D_Table.Columns[0].HeaderText = "Range";
-                D_Table.Columns[1].HeaderText = "Value";
-
-
                 debugTable();
                 if (attIndex.Count == 0)
                     MessageBox.Show("Not choose attribute yet!", "Notification");                   
@@ -375,8 +370,10 @@ namespace WekaImplement
 
                     List<List<BinData>> _out = new List<List<BinData>>();
 
+
                     for (int i = 0; i < attIndex.Count; ++i)
                     {
+                        #region core
                         if (dataset.Info[attIndex[i]].Type == "Nominal")
                             MessageBox.Show("This attribute can't discretize by width!", "Notification");           //check condition
                         else
@@ -433,58 +430,25 @@ namespace WekaImplement
                                         break;
                                     }
                             }
+                        #endregion
 
-                                /*if (Debug_Chk.Checked)
-                                {
-                                    string _res = "";
-                                    foreach (object o in Bindata[i])
-                                        _res += o.ToString() + " ";
-                                    MessageBox.Show(_res, "First BinData Debug"); 
-                                }*/
-                            
-                            if (Debug_Chk.Checked)
-                            {
-                                string _res = "";
-                                foreach (BinData bd in btemp)
-                                    if (bd.AverageValue == "-inf")
-                                        _res += bd.First + "-" + bd.Last + "\t" + bd.Last + "\r\n";
-                                    else
-                                    _res += bd.First + "-" + bd.Last + "\t" + bd.AverageValue + "\r\n";
-                                MessageBox.Show(_res, "Bin width range Debug"); 
-                            }
-                            _out.Add(btemp);
+                        //Show result MsgBox
+                        string _res = "Attribute: " + dataset.Info[i].Attribute + "\n";
+                        foreach (BinData bd in btemp)
+                            if (bd.AverageValue == "-inf")
+                                _res += "Range: " + bd.First + "-" + bd.Last + "\t" + "Value: " + bd.Last + "\r\n";
+                            else
+                            _res += "Range: " + bd.First + "-" + bd.Last + "\t" + "Value: " + bd.AverageValue + "\r\n";
+                        MessageBox.Show(_res, dataset.Info[i].Attribute); 
+
+                        _out.Add(btemp);
 
                         }
-                        if (Debug_Quit.Checked)
-                            {
-                                string _res = ""; //
-                                for (int k = 0; k < _out[0].Count; k++)
-                                {
-                                    for (int j = 0; j < _out.Count; j++)
-                                    {
-                                        _res += _out[j][k].First.ToString() + "-" + _out[j][k].Last.ToString() + ",";
-                                    }
-                                    _res = _res.Substring(0, _res.Length - 1) + "\r\n";
-                                }
-                                F_Data.Text = _res;     
-                                MessageBox.Show("");
-                                Application.Exit();
-                            }
                     }
+
 
                     //Print result to saving
-                    string _output = "";
-                    for (int k = 0; k < Bindata[0].Length; k++)
-                    {
-                        for (int j = 0; j < Bindata.Count; j++)
-                        {
-                            _output += Bindata[j][k].ToString() + ",";
-                        }
-                        _output = _output.Substring(0, _output.Length - 1) + "\r\n";
-                    }
                     
-                    F_Data.Text = header + _output;
-
                 }
             }
         }
@@ -556,6 +520,7 @@ namespace WekaImplement
                                     }
                             }
 
+<<<<<<< HEAD
                                 /*if (Debug_Chk.Checked)
                                 {
                                     string _res = "";
@@ -599,6 +564,17 @@ namespace WekaImplement
                             _output += Bindata[j][k].ToString() + ",";
                         }
                         _output = _output.Substring(0, _output.Length - 1) + "\r\n";
+=======
+                            string _res = "Attribute: " + dataset.Info[i].Attribute + "\n";
+                            foreach (BinData bd in btemp)
+                                if (bd.AverageValue == "-inf")
+                                    _res += "Range: " + bd.First + "-" + bd.Last + "\t" + "Value: " + bd.Last + "\r\n";
+                                else
+                                    _res += "Range: " + bd.First + "-" + bd.Last + "\t" + "Value: " + bd.AverageValue + "\r\n";
+                            MessageBox.Show(_res, dataset.Info[i].Attribute); 
+                        }
+                        //TODO PRINT RESULT TO SAVE
+>>>>>>> ba59f3d9a8f676209be05c8d4eca97ba6f9e6891
                     }
                     
                     F_Data.Text = header + _output;
@@ -693,10 +669,17 @@ namespace WekaImplement
                         }
 
                         res.Add(temp);      //  output data
-
-                        
                     }
+                }
 
+                DataSet temp_data = dataset;
+
+                for (int i = 0; i < attIndex.Count; i++)
+                {
+                    if (temp_data.Info[attIndex[i]].Type == "Numerical")
+                    {
+                        //Process start here
+                    }
                 }
 
                 //Print out data for saving
