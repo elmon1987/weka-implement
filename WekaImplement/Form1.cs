@@ -677,33 +677,48 @@ namespace WekaImplement
 
                 }
 
+                DataSet tmp_data = dataset;
+
+
                 //Print out data for saving
-                string _output = "";
-                for (int k = 0; k < res[0].Count; k++)
+                foreach (int i in attIndex)
                 {
-                    for (int j = 0; j < res.Count; j++)
+                    for (int k = 0; k < res[0].Count; k++)
                     {
-                        _output += res[j][k].ToString() + ",";
+                        for (int j = 0; j < res.Count; j++)
+                            tmp_data.Data[i][k] = res[j][k];
                     }
-                    _output = _output.Substring(0,_output.Length - 1) + "\r\n";
+                    
+                    string _res = "";
+                    for (int _i = 0; _i < tmp_data.Data[0].Length; _i++)
+                    {
+                        for (int _j = 0; _j < tmp_data.Info.Count; _j++)
+                            _res += tmp_data.Data[_j][_i] + ",";
+
+                        _res = _res.Substring(0, _res.Length - 1) + "\r\n";
+                    }
+                    F_Data.Text = header + _res;
                 }
-                if (Debug_Quit.Checked) MessageBox.Show(_output, "Normalize min max");
-                F_Data.Text = header + _output;
             }
         }
 
         private void N_Zscore_Click(object sender, EventArgs e) //Normalize using z-score
         {
             debugTable();
+
             if (attIndex.Count == 0)
                 MessageBox.Show("Not choose attribute yet!", "Notification");
+
             else
             {
                 List<List<double>> res = new List<List<double>>();
+
                 for (int i = 0; i < attIndex.Count; ++i)
                 {
+
                     if (dataset.Info[attIndex[i]].Type == "Nominal")
                         MessageBox.Show("This attribute can't normalize!", "Notification");
+
                     else
                     {
                         List<double> temp = new List<double>();
@@ -732,19 +747,30 @@ namespace WekaImplement
                     }
                 }
 
-                //Print out data for saving
-                string _output = "";
-                for (int k = 0; k < res[0].Count; k++)
+                DataSet tmp_data = dataset;
+
+
+                foreach (int i in attIndex)
                 {
-                    for (int j = 0; j < res.Count; j++)
+                    for (int k = 0; k < res[0].Count; k++)
                     {
-                        _output += res[j][k].ToString() + ",";
+                        for (int j = 0; j < res.Count; j++)
+                            tmp_data.Data[i][k] = res[j][k];
                     }
-                    _output = _output.Substring(0, _output.Length - 1) + "\r\n";
+
+                    string _res = "";
+                    for (int _i = 0; _i < tmp_data.Data[0].Length; _i++)
+                    {
+                        for (int _j = 0; _j < tmp_data.Info.Count; _j++)
+                            _res += tmp_data.Data[_j][_i] + ",";
+
+                        _res = _res.Substring(0, _res.Length - 1) + "\r\n";
+                    }
+                    F_Data.Text = header + _res;
                 }
-                if (Debug_Quit.Checked) MessageBox.Show(_output, "Normalize min max");
-                F_Data.Text = header + _output;
             }
+
+            
         }
         #endregion
 
