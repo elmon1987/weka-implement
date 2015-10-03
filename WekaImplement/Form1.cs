@@ -31,6 +31,12 @@ namespace WekaImplement
         private string header;
         private DataSet dataset = new DataSet();
         private List<int> attIndex = new List<int>();
+        private List<object[]> Bindata = new List<object[]>();
+        private List<List<BinData>> _out = new List<List<BinData>>();
+        private List<double> dtemp = new List<double>();
+        private List<BinData> btemp = new List<BinData>();
+        private List<double> tmp = new List<double>();
+        private List<List<double>> res = new List<List<double>>();
 
         public Form1()
         {
@@ -39,6 +45,8 @@ namespace WekaImplement
             dataset.Data = new List<object[]>();
             I_Table.Columns[0].ValueType = typeof(int);
         }
+
+        private void pass();
 
         #region Tooltips
         private string Parser(object[] data) //Get type of attribute
@@ -198,6 +206,15 @@ namespace WekaImplement
             I_Table.Rows.Clear();
             attIndex.Clear();
         }
+        private void ResetAllList()
+        {
+            Bindata.Clear();
+            dtemp.Clear();
+            btemp.Clear();
+            tmp.Clear();
+            _out.Clear();
+            res.Clear();
+        }
 
         private void debugTable() //Get list of checked attribute
         {
@@ -354,6 +371,7 @@ namespace WekaImplement
 
         private void D_Width_Click(object sender, EventArgs e) //done
         {
+            ResetAllList();
             int bin;
             double range; 
             if (numBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");                       //check input
@@ -365,15 +383,16 @@ namespace WekaImplement
                 D_Table.Columns[1].HeaderText = "Value";
 
 
+
                 debugTable();
                 if (attIndex.Count == 0)
                     MessageBox.Show("Not choose attribute yet!", "Notification");                   
                 else
                 {
                     
-                    List<object[]> Bindata = new List<object[]>();                         // Data after equal width hold at here!
+                    //List<object[]> Bindata = new List<object[]>();                         // Data after equal width hold at here!
 
-                    List<List<BinData>> _out = new List<List<BinData>>();
+                    //List<List<BinData>> _out = new List<List<BinData>>();
 
                     for (int i = 0; i < attIndex.Count; ++i)
                     {
@@ -381,8 +400,8 @@ namespace WekaImplement
                             MessageBox.Show("This attribute can't discretize by width!", "Notification");           //check condition
                         else
                         {                           
-                            List<double> dtemp = new List<double>();
-                            List<BinData> btemp = new List<BinData>();
+                            //List<double> dtemp = new List<double>();
+                            //List<BinData> btemp = new List<BinData>();
 
                             foreach (object o in dataset.Data[attIndex[i]])                    //get value from dataset     
                                 if (o.GetType() == typeof(double)) dtemp.Add((double)o);      
@@ -403,7 +422,7 @@ namespace WekaImplement
                             {
                                 string aver;
                                 double first, last; 
-                                List<double> tmp = new List<double>();
+                                //List<double> tmp = new List<double>();
                                 while (dtemp.Count != 0 && dtemp[0] <= rtemp)                   //take all data on each range
                                 {
                                     tmp.Add(dtemp[0]);
@@ -491,19 +510,25 @@ namespace WekaImplement
 
         private void D_Freq_Click(object sender, EventArgs e) //finished but not confirm
         {
+            ResetAllList();
             int bin;
             if (weightBin.Text == "") MessageBox.Show("Nothing to do!", "Notification");                //check input
             else if (!int.TryParse(weightBin.Text, out bin)) MessageBox.Show("Wrong input", "Notification");
             else
             {
+                //Invoke result table
+                D_Table.Columns[0].HeaderText = "Range";
+                D_Table.Columns[1].HeaderText = "Value";
+
+
                 debugTable();
                 if (attIndex.Count == 0)
                     MessageBox.Show("Not choose attribute yet!", "Notification");
                 else
                 {
-                    List<object[]> Bindata = new List<object[]>();                         // Data after equal weight hold at here!
+                    //List<object[]> Bindata = new List<object[]>();                         // Data after equal weight hold at here!
                     
-                    List<List<BinData>> _out = new List<List<BinData>>();
+                    //List<List<BinData>> _out = new List<List<BinData>>();
                     
                     for (int i = 0; i < attIndex.Count; ++i)
                     {
@@ -511,8 +536,8 @@ namespace WekaImplement
                             MessageBox.Show("It's NOT make sense!", "Notification");    
                         else
                         {
-                            List<double> dtemp = new List<double>();
-                            List<BinData> btemp = new List<BinData>();
+                            //List<double> dtemp = new List<double>();
+                            //List<BinData> btemp = new List<BinData>();
 
                             foreach (object o in dataset.Data[attIndex[i]])                    //get value from dataset     
                                 if (o.GetType() == typeof(double)) dtemp.Add((double)o);
@@ -526,7 +551,7 @@ namespace WekaImplement
                             {
                                 string aver;
                                 double first, last;
-                                List<double> tmp = new List<double>();
+                                //List<double> tmp = new List<double>();
 
                                 for (int j = 0; j < bin; ++j)                               //take data to bin
                                 {
@@ -567,20 +592,33 @@ namespace WekaImplement
                         }
                                 if (Debug_Quit.Checked)
                                 {
-                                string _res = ""; 
-                                for (int k = 0; k < _out[0].Count; k++)
-                                {
-                                    for (int j = 0; j < _out.Count; j++)
+                                    string _res = ""; 
+                                    for (int k = 0; k < _out[0].Count; k++)
                                     {
-                                        _res += _out[j][k].First.ToString() + "-" + _out[j][k].Last.ToString() + ",";
+                                        for (int j = 0; j < _out.Count; j++)
+                                        {
+                                            _res += _out[j][k].First.ToString() + "-" + _out[j][k].Last.ToString() + ",";
+                                        }
+                                        _res = _res.Substring(0, _res.Length - 1) + "\r\n";
                                     }
-                                    _res = _res.Substring(0, _res.Length - 1) + "\r\n";
+                                    F_Data.Text = _res;     
+                                    MessageBox.Show("");
+                                    Application.Exit();
                                 }
-                                F_Data.Text = _res;     
-                                MessageBox.Show("");
-                                Application.Exit();
-                            }
-                    }                       
+                                
+                    }
+                    //Print result to saving
+                    string _output = "";
+                    for (int k = 0; k < Bindata[0].Length; k++)
+                    {
+                        for (int j = 0; j < Bindata.Count; j++)
+                        {
+                            _output += Bindata[j][k].ToString() + ",";
+                        }
+                        _output = _output.Substring(0, _output.Length - 1) + "\r\n";
+                    }
+
+                    F_Data.Text = header + _output;   
                 }
             }
         }
@@ -636,6 +674,7 @@ namespace WekaImplement
 
         private void N_MinMax_Click(object sender, EventArgs e) //Normalize using min-max
         {
+            ResetAllList();
             debugTable();
 
             if (attIndex.Count == 0)
@@ -643,7 +682,7 @@ namespace WekaImplement
 
             else
             {
-                List<List<double>> res = new List<List<double>>();
+                //List<List<double>> res = new List<List<double>>();
 
                 for (int i = 0; i < attIndex.Count; ++i)
                 {
@@ -653,124 +692,100 @@ namespace WekaImplement
 
                     else
                     {
-                        List<double> temp = new List<double>();
+                        //List<double> temp = new List<double>();
                         foreach (object o in dataset.Data[attIndex[i]])                 //get data from dataset
-                            temp.Add((double)o);
+                            tmp.Add((double)o);
 
-                        double min = temp.Min(), max = temp.Max();
+                        double min = tmp.Min(), max = tmp.Max();
 
-                        for (int j = 0; j < temp.Count; ++j)                            //normalize
-                            temp[j] = (temp[j] - min) / (max - min);
+                        for (int j = 0; j < tmp.Count; ++j)                            //normalize
+                            tmp[j] = Math.Round((tmp[j] - min) / (max - min),3);
 
                         if (Debug_Chk.Checked)
                         {
                             string _res = "";
-                            foreach (double d in temp)
+                            foreach (double d in tmp)
                                 _res += d.ToString() + " ";
                             MessageBox.Show(_res, "temp Debug");
                         }
 
-                        res.Add(temp);      //  output data
+                        res.Add(tmp);      //  output data
 
                         
                     }
 
                 }
 
-                DataSet tmp_data = dataset;
-
-
                 //Print out data for saving
-                foreach (int i in attIndex)
+                string _output = "";
+                for (int k = 0; k < res[0].Count; k++)
                 {
-                    for (int k = 0; k < res[0].Count; k++)
+                    for (int j = 0; j < res.Count; j++)
                     {
-                        for (int j = 0; j < res.Count; j++)
-                            tmp_data.Data[i][k] = res[j][k];
+                        _output += res[j][k].ToString() + ",";
                     }
-                    
-                    string _res = "";
-                    for (int _i = 0; _i < tmp_data.Data[0].Length; _i++)
-                    {
-                        for (int _j = 0; _j < tmp_data.Info.Count; _j++)
-                            _res += tmp_data.Data[_j][_i] + ",";
-
-                        _res = _res.Substring(0, _res.Length - 1) + "\r\n";
-                    }
-                    F_Data.Text = header + _res;
+                    _output = _output.Substring(0,_output.Length - 1) + "\r\n";
                 }
+                if (Debug_Quit.Checked) MessageBox.Show(_output, "Normalize min max");
+                F_Data.Text = header + _output;
             }
         }
 
         private void N_Zscore_Click(object sender, EventArgs e) //Normalize using z-score
         {
+            ResetAllList();
             debugTable();
-
             if (attIndex.Count == 0)
                 MessageBox.Show("Not choose attribute yet!", "Notification");
-
             else
             {
-                List<List<double>> res = new List<List<double>>();
-
+                //blah blah blah
+                //List<List<double>> res = new List<List<double>>();
                 for (int i = 0; i < attIndex.Count; ++i)
                 {
-
                     if (dataset.Info[attIndex[i]].Type == "Nominal")
                         MessageBox.Show("This attribute can't normalize!", "Notification");
-
                     else
                     {
-                        List<double> temp = new List<double>();
+                        //List<double> temp = new List<double>();
                         foreach (object o in dataset.Data[attIndex[i]])
-                            temp.Add((double)o);
+                            tmp.Add((double)o);
 
-                        double mean = temp.Average(), sumofSqr = 0;                  //calculate mean
-                        for (int j = 0; j < temp.Count; ++j)      //calculate v' = v - mean
-                            temp[j] = temp[j] - mean;
+                        double mean = tmp.Average(), sumofSqr = 0;                  //calculate mean
+                        for (int j = 0; j < tmp.Count; ++j)      //calculate v' = v - mean
+                            tmp[j] = tmp[j] - mean;
 
-                        for (int j = 0; j < temp.Count; ++j)                         //calculate sum of square
-                            sumofSqr += Math.Pow(temp[j], 2);
+                        for (int j = 0; j < tmp.Count; ++j)                         //calculate sum of square
+                            sumofSqr += Math.Pow(tmp[j], 2);
 
-                        for (int j = 0; j < temp.Count; ++j)
-                            temp[j] = Math.Round(temp[j]/Math.Sqrt(sumofSqr/temp.Count),4);     //calculate stddev
+                        for (int j = 0; j < tmp.Count; ++j)
+                            tmp[j] = Math.Round(tmp[j]/Math.Sqrt(sumofSqr/tmp.Count),3);     //calculate stddev
 
                             if (Debug_Chk.Checked)
                             {
                                 string _res = "";
-                                foreach (double d in temp)
+                                foreach (double d in tmp)
                                     _res += d.ToString() + " ";
                                 MessageBox.Show(_res, "temp Debug");
                             }
 
-                            res.Add(temp);               //output data
+                            res.Add(tmp);               //output data
                     }
                 }
 
-                DataSet tmp_data = dataset;
-
-
-                foreach (int i in attIndex)
+                //Print out data for saving
+                string _output = "";
+                for (int k = 0; k < res[0].Count; k++)
                 {
-                    for (int k = 0; k < res[0].Count; k++)
+                    for (int j = 0; j < res.Count; j++)
                     {
-                        for (int j = 0; j < res.Count; j++)
-                            tmp_data.Data[i][k] = res[j][k];
+                        _output += res[j][k].ToString() + ",";
                     }
-
-                    string _res = "";
-                    for (int _i = 0; _i < tmp_data.Data[0].Length; _i++)
-                    {
-                        for (int _j = 0; _j < tmp_data.Info.Count; _j++)
-                            _res += tmp_data.Data[_j][_i] + ",";
-
-                        _res = _res.Substring(0, _res.Length - 1) + "\r\n";
-                    }
-                    F_Data.Text = header + _res;
+                    _output = _output.Substring(0, _output.Length - 1) + "\r\n";
                 }
+                if (Debug_Quit.Checked) MessageBox.Show(_output, "Normalize min max");
+                F_Data.Text = header + _output;
             }
-
-            
         }
         #endregion
 
